@@ -59,10 +59,20 @@
             margin-top: 10px;
             font-weight: 400;
         }
-        .category img, .product img {
+        /* Стили для изображений категорий (оставляем без изменений) */
+        .category img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
+        }
+        /* Стили для изображений товаров */
+        .product img {
+            width: 150px;           /* Задаем фиксированную ширину */
+            height: 100px;          /* Задаем фиксированную высоту для прямоугольной формы */
+            border-radius: 15px;    /* Округляем края */
+            object-fit: cover;      /* Обрезаем изображение, чтобы оно соответствовало заданным размерам */
+            display: block;
+            margin: 0 auto;         /* Центрируем изображение */
         }
         .product p, .cart-item p {
             color: var(--tg-theme-hint-color, #666);
