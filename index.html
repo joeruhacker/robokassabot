@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Магазин цифровых товаров</title>
-    <!-- Добавляем мета-тег viewport -->
+    <!-- Метатег для адаптивного дизайна -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <style>
-        /* Стили оформления */
+        /* Общие стили */
         html, body {
             height: 100%;
             margin: 0;
@@ -19,8 +19,8 @@
             color: var(--tg-theme-text-color, #333);
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%; /* Растягиваем контейнер на всю ширину */
+            margin: 0;
             padding: 20px;
             height: 100%;
             box-sizing: border-box;
@@ -34,15 +34,14 @@
         .categories {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
             margin-bottom: 20px;
         }
         .category {
             background-color: var(--tg-theme-secondary-bg-color, #fff);
             padding: 20px;
-            margin: 10px;
+            margin: 5px;
             border-radius: 10px;
-            flex: 1 1 calc(25% - 40px);
+            flex: 1 1 calc(25% - 10px); /* Расчет ширины с учетом отступов */
             box-sizing: border-box;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
@@ -57,17 +56,17 @@
             font-weight: 400;
         }
         .category img {
-            width: 150px;
-            height: 150px;
+            width: 100%; /* Растягиваем изображение на всю ширину карточки */
+            height: auto;
             object-fit: cover;
             border-radius: 10px;
         }
         /* Стили для списка товаров */
         .product-list {
-            max-height: 200px; /* Ограничиваем высоту для прокрутки */
+            max-height: 200px;
             overflow-y: auto;
             margin-top: 10px;
-            display: none; /* Скрываем список по умолчанию */
+            display: none;
         }
         .product-item {
             display: flex;
@@ -149,19 +148,19 @@
             background-color: #218838;
         }
         /* Адаптивность */
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .category {
-                flex: 1 1 calc(33.333% - 40px);
+                flex: 1 1 calc(33.333% - 10px); /* Три элемента в ряд */
             }
         }
         @media (max-width: 768px) {
             .category {
-                flex: 1 1 calc(50% - 40px);
+                flex: 1 1 calc(50% - 10px); /* Два элемента в ряд */
             }
         }
         @media (max-width: 480px) {
             .category {
-                flex: 1 1 100%;
+                flex: 1 1 calc(100% - 10px); /* Один элемент в ряд */
             }
             .add-to-cart, .remove-from-cart, #checkout {
                 width: 100%;
@@ -283,7 +282,7 @@
                         <div class="add-to-cart">Добавить</div>
                     `;
 
-                    // Устанавливаем атрибуты для использования при добавлении в корзину
+                    // Добавляем обработчик для кнопки "Добавить"
                     productItem.querySelector('.add-to-cart').addEventListener('click', () => {
                         const id = product.id;
                         const item = `${categoryData.category} ${product.amount}`;
@@ -299,7 +298,6 @@
 
                 // Добавляем обработчик для показа/скрытия списка товаров
                 categoryDiv.addEventListener('click', () => {
-                    // Скрываем/показываем список товаров
                     if (productList.style.display === 'none') {
                         productList.style.display = 'block';
                     } else {
