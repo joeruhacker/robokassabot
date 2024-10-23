@@ -31,15 +31,11 @@
             text-align: center;
             font-weight: 300;
         }
-        .categories, .products, .cart {
+        .categories {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             margin-bottom: 20px;
-        }
-        .categories {
-            flex-grow: 1;
-            overflow-y: auto;
         }
         .category {
             background-color: var(--tg-theme-secondary-bg-color, #fff);
@@ -71,6 +67,7 @@
             max-height: 200px; /* Ограничиваем высоту для прокрутки */
             overflow-y: auto;
             margin-top: 10px;
+            display: none; /* Скрываем список по умолчанию */
         }
         .product-item {
             display: flex;
@@ -107,6 +104,7 @@
             background-color: var(--tg-theme-button-color, #0056b3);
         }
         .cart {
+            display: flex;
             flex-direction: column;
             align-items: center;
         }
@@ -182,7 +180,7 @@
     <div class="container">
         <h1>Добро пожаловать в наш магазин!</h1>
         <div class="categories">
-            <!-- Категории будут добавлены динамически -->
+            <!-- Категории и товары будут добавлены динамически -->
         </div>
         <h2>Корзина</h2>
         <div class="cart">
@@ -273,7 +271,7 @@
                 // Создаем список товаров для категории
                 const productList = document.createElement('div');
                 productList.className = 'product-list';
-                productList.style.display = 'none'; // Скрываем список по умолчанию
+                productList.style.display = 'none';
 
                 categoryData.items.forEach(product => {
                     const productItem = document.createElement('div');
@@ -309,8 +307,11 @@
                     }
                 });
 
-                categoriesContainer.appendChild(categoryDiv);
-                categoriesContainer.appendChild(productList);
+                const categoryContainer = document.createElement('div');
+                categoryContainer.appendChild(categoryDiv);
+                categoryContainer.appendChild(productList);
+
+                categoriesContainer.appendChild(categoryContainer);
             });
         }
 
