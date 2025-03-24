@@ -64,12 +64,17 @@
       left: 0;
     }
 
-    /* Главный экран с категориями */
+    /* Главный экран с категориями (2 колонки, адаптивно) */
     .categories-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       margin-top: 30px;
+    }
+    @media (max-width: 600px) {
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .category-card {
@@ -106,7 +111,6 @@
       padding: 10px;
       gap: 10px;
     }
-
     .back-button {
       align-self: flex-start;
       background-color: var(--button-color);
@@ -122,9 +126,21 @@
       background-color: #0056b3;
     }
 
-    .product-item {
+    /* Список товаров тоже в 2 колонки, адаптивно */
+    #products-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
       width: 100%;
-      max-width: 400px;
+      max-width: 600px;
+    }
+    @media (max-width: 600px) {
+      #products-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .product-item {
       background-color: var(--secondary-bg-color);
       display: flex;
       justify-content: space-between;
@@ -136,6 +152,7 @@
     .product-info {
       display: flex;
       flex-direction: column;
+      margin-right: 10px;
     }
     .product-name {
       font-size: 16px;
@@ -155,6 +172,7 @@
       text-decoration: none;
       transition: background-color 0.2s;
       font-size: 14px;
+      white-space: nowrap;
     }
     .add-to-cart:hover {
       background-color: #0056b3;
@@ -184,9 +202,12 @@
     .cart-page .products-container {
       align-items: flex-start;
     }
-    .cart-item {
+    #cart-list {
       width: 100%;
       max-width: 500px;
+    }
+    .cart-item {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -206,6 +227,7 @@
       transition: background-color 0.2s;
       font-size: 14px;
       margin-left: 10px;
+      white-space: nowrap;
     }
     .remove-from-cart:hover {
       background-color: #c82333;
@@ -298,7 +320,7 @@
     </div>
 
     <!-- Экран корзины -->
-    <div id="cart-page" class="page hidden">
+    <div id="cart-page" class="page hidden cart-page">
       <div class="products-container">
         <button class="back-button" id="back-to-main-from-cart">Назад</button>
         <h2>Корзина</h2>
@@ -332,7 +354,7 @@
       alert('Ошибка: chat_id не найден');
     }
 
-    // Пример данных (можете дополнить для Fortnite, Warcraft, Minecraft)
+    // Пример данных (сохраняем ссылки и номиналы как есть)
     const productsData = [
       {
         category: 'Robux',
@@ -359,7 +381,6 @@
         category: 'Fortnite',
         image: 'https://cdn2.unrealengine.com/Fortnite%2Fblog%2Fpatch-v10-10-bring-on-the-bugs%2F10BR_ArtistPatchNotes_NewsHeader-1920x1080-32f2a3f46f43a50ec915c7d509c1f68b7c6c6b43.jpg',
         items: [
-          // Пример номиналов для Фортнайта (можете дополнить)
           { id: 101, amount: 1000, price: 950 },
           { id: 102, amount: 2800, price: 1990 },
           { id: 103, amount: 5000, price: 3555 },
@@ -370,8 +391,7 @@
         category: 'Minecraft',
         image: 'https://upload.wikimedia.org/wikipedia/ru/2/20/Minecraft_logo.png',
         items: [
-          // Пример номиналов для Майнкрафта
-          { id: 201, amount: 1, price: 990 },  // Условно: 1 лицензия
+          { id: 201, amount: 1, price: 990 },
           { id: 202, amount: 2, price: 1890 },
           { id: 203, amount: 5, price: 4390 }
         ]
@@ -380,7 +400,6 @@
         category: 'Warcraft',
         image: 'https://upload.wikimedia.org/wikipedia/ru/8/85/WarcraftIII_Reforged_Logo.png',
         items: [
-          // Пример номиналов для Варкрафта
           { id: 301, amount: 1, price: 1290 },
           { id: 302, amount: 2, price: 2290 },
           { id: 303, amount: 3, price: 3390 }
@@ -407,14 +426,15 @@
     const backToMainBtn = document.getElementById('back-to-main');
     const backToMainFromCartBtn = document.getElementById('back-to-main-from-cart');
 
-    // Показать/скрыть страницы
+    // Показать/скрыть страницы + прокрутка вверх
     function showPage(pageToShow) {
-      // Прячем все страницы
       [mainPage, productsPage, cartPage].forEach(page => {
         page.classList.add('hidden');
       });
-      // Показываем нужную страницу
       pageToShow.classList.remove('hidden');
+
+      // Прокрутка к верху, чтобы не искать товары вверху экрана
+      window.scrollTo(0, 0);
     }
 
     // Обновление корзины (иконки/кнопки и экрана корзины)
@@ -422,7 +442,7 @@
       // Обновляем количество в иконке корзины
       cartCountEl.textContent = cart.length;
 
-      // Если находимся на странице корзины – перерисовать список
+      // Перерисовываем список корзины
       cartListEl.innerHTML = '';
       if (cart.length === 0) {
         cartListEl.innerHTML = '<p>Ваша корзина пуста.</p>';
@@ -455,14 +475,12 @@
 
     // Показать список товаров для выбранной категории
     function showProducts(category) {
-      // Находим данные о категории
       const categoryData = productsData.find(item => item.category === category);
       if (!categoryData) return;
 
-      // Заголовок
       productsTitleEl.textContent = categoryData.category;
 
-      // Список товаров
+      // Заполняем список товаров
       productsListEl.innerHTML = '';
       categoryData.items.forEach(product => {
         const productDiv = document.createElement('div');
@@ -476,6 +494,7 @@
           <button class="add-to-cart">Добавить</button>
         `;
 
+        // Добавляем в корзину
         productDiv.querySelector('.add-to-cart').addEventListener('click', () => {
           const id = product.id;
           const item = `${categoryData.category} ${product.amount}`;
@@ -491,13 +510,13 @@
 
     // Инициализация
     function init() {
-      updateCart(); // Обновить корзину при загрузке
-      showPage(mainPage); // Показать главную страницу
+      updateCart();         // Обновить корзину при загрузке
+      showPage(mainPage);   // Показать главную страницу
 
-      // Скрыть/показать кнопку корзины (на главном экране нужна, на других – по желанию)
+      // Показать кнопку корзины на главном экране
       cartButton.style.display = 'block';
 
-      // Навешиваем события на карточки категорий
+      // Обработчики клика на карточки категорий
       document.querySelectorAll('.category-card').forEach(card => {
         card.addEventListener('click', () => {
           const category = card.getAttribute('data-category');
@@ -511,7 +530,7 @@
         showPage(mainPage);
       });
 
-      // Кнопка "Корзина" (внизу экрана)
+      // Кнопка "Корзина"
       cartButton.addEventListener('click', () => {
         showPage(cartPage);
       });
