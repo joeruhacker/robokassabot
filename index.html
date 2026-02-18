@@ -162,7 +162,7 @@
     .page {
       width: 100%;
       min-height: 0;
-      padding-bottom: 86px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom));
       opacity: 1;
       visibility: visible;
       transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
@@ -173,6 +173,11 @@
       position: absolute;
       top: 0;
       left: 0;
+    }
+
+    /* Extra bottom space only when the floating cart button is visible */
+    body.has-cart-button .page {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom));
     }
 
     /* Главный экран с категориями – всегда 2 колонки */
@@ -779,6 +784,10 @@
         page.classList.add('hidden');
       });
       pageToShow.classList.remove('hidden');
+      // Показываем плавающую кнопку корзины только там, где она нужна
+      const showCartFab = (pageToShow === mainPage || pageToShow === productsPage);
+      cartButton.style.display = showCartFab ? 'block' : 'none';
+      document.body.classList.toggle('has-cart-button', showCartFab);
       // Прокрутка к верху, чтобы всегда видеть начало списка
       window.scrollTo(0, 0);
     }
@@ -859,8 +868,8 @@
       updateCart();         // Обновить корзину при загрузке
       showPage(mainPage);   // Показать главную страницу
 
-      // Показать кнопку корзины на главном экране
-      cartButton.style.display = 'block';
+      // Кнопку корзины покажем через showPage()
+      document.body.classList.add('has-cart-button');
 
       // Tabs: быстрый доступ к Играм/Подпискам
       const tabGames = document.getElementById('tab-games');
