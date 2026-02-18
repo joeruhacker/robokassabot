@@ -39,6 +39,10 @@
       font-family: 'Poppins', sans-serif;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       background:
         radial-gradient(1200px 800px at 15% 10%, rgba(0, 122, 255, 0.18), transparent 60%),
@@ -47,6 +51,7 @@
         var(--bg-color);
       color: var(--text-color);
       overflow-x: hidden;
+      overflow-y: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -141,6 +146,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      height: 100%;
     }
 
     /* Glass surfaces */
@@ -166,6 +172,10 @@
       opacity: 1;
       visibility: visible;
       transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
     .page.hidden {
       opacity: 0;
