@@ -283,13 +283,14 @@
       backdrop-filter: blur(var(--glass-blur)) saturate(140%);
       -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
       border-radius: var(--radius-md);
       padding: 12px;
       box-shadow: var(--glass-shadow-soft);
       gap: 10px;
-      min-height: 86px;
+      min-height: 110px;
     }
     .product-info {
       display: flex;
@@ -298,34 +299,51 @@
       min-width: 0;
     }
     .product-name {
-      font-size: 14px;
+      font-size: 13px;
       margin: 0;
       font-weight: 600;
       letter-spacing: -0.01em;
-      line-height: 1.15;
+      line-height: 1.18;
       display: -webkit-box;
-      -webkit-line-clamp: 2;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
       word-break: break-word;
     }
     .product-price {
       font-size: 13px;
-      color: var(--hint-color);
       line-height: 1.1;
+      font-weight: 700;
+      color: var(--text-color);
+      opacity: 0.85;
     }
     .add-to-cart {
       background: rgba(0, 122, 255, 0.92);
       color: #fff;
-      padding: 8px 12px;
+      padding: 7px 10px;
       text-align: center;
       border-radius: 999px;
       cursor: pointer;
       text-decoration: none;
       transition: transform 0.15s ease, filter 0.2s ease, opacity 0.2s ease;
-      font-size: 13px;
+      font-size: 12px;
       white-space: nowrap;
       border: 1px solid rgba(255, 255, 255, 0.18);
+      align-self: flex-start;
+    }
+    @media (max-width: 360px) {
+      .product-item {
+        padding: 10px;
+        min-height: 104px;
+      }
+      .product-name {
+        font-size: 12.5px;
+        -webkit-line-clamp: 3;
+      }
+      .add-to-cart {
+        padding: 6px 9px;
+        font-size: 11.5px;
+      }
     }
     .add-to-cart:hover {
       filter: brightness(1.05);
@@ -879,9 +897,9 @@
         productDiv.innerHTML = `
           <div class="product-info">
             <span class="product-name">${product.amount}</span>
-            <span class="product-price">${product.price} руб.</span>
+            <span class="product-price">${product.price} ₽</span>
           </div>
-          <button class="add-to-cart">Добавить</button>
+          <button class="add-to-cart" type="button">Добавить</button>
         `;
 
         // Добавляем в корзину
