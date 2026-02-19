@@ -313,9 +313,19 @@
     .product-price {
       font-size: 13px;
       line-height: 1.1;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-color);
-      opacity: 0.85;
+      opacity: 1;
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+      -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
     }
     .add-to-cart {
       background: rgba(0, 122, 255, 0.92);
@@ -343,6 +353,10 @@
       .add-to-cart {
         padding: 6px 9px;
         font-size: 11.5px;
+      }
+      .product-price {
+        padding: 5px 9px;
+        font-size: 12px;
       }
     }
     .add-to-cart:hover {
@@ -647,14 +661,27 @@
         category: 'Steam USA',
         image: 'https://i.pinimg.com/736x/54/a8/9a/54a89aa169f409ed4573d3454ce46879.jpg',
         items: [
-          { id: 200, amount: '1 позиция', price: 100 }
+          { id: 200, amount: '5$', price: 100 },
+          { id: 201, amount: '10$', price: 100 },
+          { id: 202, amount: '15$', price: 100 },
+          { id: 203, amount: '20$', price: 100 },
+          { id: 204, amount: '25$', price: 100 },
+          { id: 205, amount: '30$', price: 100 },
+          { id: 206, amount: '50$', price: 100 },
+          { id: 207, amount: '100$', price: 100 }
         ]
       },
       {
         category: 'Steam EU',
         image: 'https://i.pinimg.com/736x/91/a5/79/91a5797b81a1e4bfbb96544032ea6802.jpg',
         items: [
-          { id: 201, amount: '1 позиция', price: 100 }
+          { id: 208, amount: '1 €', price: 100 },
+          { id: 209, amount: '5 €', price: 100 },
+          { id: 210, amount: '10 €', price: 100 },
+          { id: 211, amount: '20 €', price: 100 },
+          { id: 212, amount: '25 €', price: 100 },
+          { id: 213, amount: '30 €', price: 100 },
+          { id: 214, amount: '35 €', price: 100 }
         ]
       },
       {
